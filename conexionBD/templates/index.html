@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>📝 Libro de Visitas</h1>
+    
+    <form action="/firmar" method="POST">
+        <input type="text" name="texto_comentario" placeholder="Escribe tu mensaje..." required>
+        <button type="submit">Firmar</button>
+    </form>
+    <hr>
+    <h2>Mensajes guardados:</h2>
+    
+    <ul>
+        {% for mensaje in comentarios %}
+            <li style="margin-bottom: 10px;">
+                <strong>#{{ mensaje.id }}</strong>: {{ mensaje.contenido }}        
+                <a href="/borrar/{{ mensaje.id }}" style="color: blue; margin-left: 10px;">
+                    [X] Borrar
+                </a>
+                <a href="/editar/{{ mensaje.id }}" style="color: green; margin-left: 10px;">
+                    [✎] Editar
+                </a>
+            </li>   
+        {% endfor %}
+
+        <a href="/reset" style="color: red; margin-left: 10px;">
+            Borrar Todo
+        </a>
+    </ul>   
+    </body>
+</html>

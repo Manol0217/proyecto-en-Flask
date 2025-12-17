@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>✏️ Corrigiendo comentario</h1>
+
+    <form action="/actualizar/{{ comentario.id }}" method="POST">
+        
+        <input type="text" name="texto_nuevo" value="{{ comentario.contenido }}" style="width: 300px;">
+        
+        <button type="submit">Guardar Cambios</button>
+    </form>
+    
+    <br>
+    <a href="/">Cancelar</a>
+</body>
+</html>
