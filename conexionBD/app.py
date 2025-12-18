@@ -1,17 +1,23 @@
 from flask import Flask, render_template, redirect, request
 # 1. Importamos la herramienta de base de datos
 from flask_sqlalchemy import SQLAlchemy 
-
+import os 
 app = Flask(__name__)
 
-# --- CONFIGURACIÓN DE LA BASE DE DATOS (NUEVO) ---
-# Le decimos que cree un archivo llamado "blog.db"
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
-# Desactiva notificaciones molestas que no necesitamos
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db_url = os.environ.get('DATABASE_URL')
+if db_url:
+    # Corrección para PostgreSQL (Render a veces da urls con 'postgres://' que fallan, hay que cambiarlo a 'postgresql://')
+    if db_url.startswith("postgres://"):
+        db_url = db_url.replace("postgres://", "postgresql://", 1)
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_url
+else:
+    # Configuración local (tu archivo en la PC)
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mi_base_de_datos.db'
 
-# Inicializamos la base de datos
-db = SQLAlchemy(app)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# ------------------------------
+
+db = SQLAlchemy(app)# Inicializamos la base de datos
 
 # --- DEFINIMOS LA TABLA (MODELO) (NUEVO) ---
 # Esto es equivalente a un CREATE TABLE comentarios (...)
